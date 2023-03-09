@@ -1652,3 +1652,118 @@
 # s.pop()           #removes and returns an arbitrary element
 #
 # s.clear()         #removes all elements from set
+##########
+
+
+### 10-11. Update Operations
+##Analogous Set mutating updates  (|=, &=, -=, ^=)
+#
+# s1 = {1, 2, 3, 4}
+# s2 = {3, 4, 5, 6}
+# s3 = {4, 5, 6, 7}
+###
+# print(s1, id(s1))        #{1, 2, 3, 4} 140033700340992
+# print(s2, id(s2))        #{3, 4, 5, 6} 140033700341440
+###
+# s1 = s1 & s2
+# print(s1, id(s1))        #{3, 4} 140513692166048  (the ID of s1 has changed)
+###
+# s1 &= s2
+# print(s1, id(s1))        #{3, 4} 140033700340992 (the ID of s1 has not changed (s1 has mutated))
+##or
+# s1.intersection_update(s2)
+# print(s1, id(s1))       #the same result::{3, 4} 140033700340992 (the ID of s1 has not changed (s1 has mutated))
+#########
+# s1 -= s2
+# print(s1)                #{1, 2} ((s1 has mutated))
+##
+# s1 -= s2 - s3              #s1 - (s2 - s3)
+# print(s1)                  #{1, 2, 4}  ((s1 has mutated))
+##or
+# s1.difference_update(s2, s3) #the same result
+######
+# s1 |= s2 | s3
+# print(s1)                    #{1, 2, 3, 4, 5, 6, 7} ((s1 has mutated))
+## or
+# s1.update(s2, s3)            ##the same result
+#####
+# s1 ^= s2
+# print(s1)                     #{1, 2, 5, 6}  ((s1 has mutated))
+#
+############
+
+
+
+### 13. Copying Sets
+# #
+# class Person:
+#     def __init__(self, name):
+#         self.name = name
+#
+#     def __repr__(self):
+#         return f'Person(name={self.name})'
+#
+# p1 = Person('John')
+# p2 = Person('Sara')
+#
+# s1 = {p1, p2}
+#
+# s2_copy = s1.copy()
+# s1 is s2_copy      #False
+# s1 == s2_copy      #True
+#
+# s3_copy = {*s1}
+# s1 is s3_copy      #False
+# s1 == s3_copy      #True
+#
+# ##deep copy
+# from copy import deepcopy
+# s4_dpcopy = deepcopy(s1)
+# s1 is s4_dpcopy    #False
+# s1 == s4_dpcopy    #False
+# ##
+#
+# print(s1, id(s1))                   #{Person(name=John), Person(name=Sara)} 140516324876224
+# print(s2_copy, id(s2_copy))         #{Person(name=John), Person(name=Sara)} 140516324878464
+# print(s3_copy, id(s3_copy))         #{Person(name=John), Person(name=Sara)} 140516324878240
+# print(s4_dpcopy, id(s4_dpcopy))     #{Person(name=John), Person(name=Sara)} 140350100810528
+#
+# p1.name = 'Henry'
+#
+# print(s1, id(s1))                  #{Person(name=Henry), Person(name=Sara)} 140568488779712
+# print(s2_copy, id(s2_copy))        #{Person(name=Henry), Person(name=Sara)} 140568488781952
+# print(s3_copy, id(s3_copy))        #{Person(name=Henry), Person(name=Sara)} 140568488781952
+# print(s4_dpcopy, id(s4_dpcopy))    #{Person(name=John), Person(name=Sara)}  140350100810528
+#
+# ####
+
+
+
+### 14. Frozen Sets
+#
+#
+# s1 = {'a', 'b', 'c'}
+# print(type(s1), s1)      #<class 'set'> {'b', 'c', 'a'}
+#
+# frz_s = frozenset({'d', 'f', 'g'})
+# print(type(frz_s), frz_s)  #<class 'frozenset'> frozenset({'g', 'd', 'f'})
+####
+#
+# s1 = {1, 2, 3, 4}
+# s2_copy = s1.copy()
+# print(id(s1), s1)             #139799848625408 {1, 2, 3, 4}
+# print(id(s2_copy), s2_copy)   #139799848624064 {1, 2, 3, 4}
+###
+# s1_frz = frozenset({1, 2, 3, 4})
+# s2_frz_cp = frozenset(s1_frz)
+# print(id(s1_frz), s1_frz)  # 139919830903136 frozenset({1, 2, 3, 4})
+# print(id(s2_frz_cp), s2_frz_cp) #139919830903136 frozenset({1, 2, 3, 4})  the same ID
+ ###
+
+
+ #######################################################################################################################################################################
+ #######################################################################################################################################################################
+ #######################################################################################################################################################################
+
+
+
