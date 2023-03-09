@@ -1613,7 +1613,42 @@
 #################
 
 
-###3. Python Sets
+
+
+### 5. Creating Sets
+# st1 = 'asdfggghjkkaaa'
+# set1 = set(st1)
+# print(set1)         #{'k', 'd', 'a', 'g', 'f', 'h', 'j', 's'}
+###
+# def scorer(s):
+#     alphabet = set('abcdefghijkl')
+#     s = s.lower()
+#     dist = set(s)
+#     effective = dist & alphabet
+#     return len(effective), effective
+# print(scorer('abczxxYf'))    #(4, {'f', 'b', 'a', 'c'})
+##############
 
 
 
+### 6. Common Operations
+#
+##Addind elements
+# s = {1, 2, 3, 4, 5}
+# s.add(6)
+# print(s)       # {1, 2, 3, 4, 5, 6} (6 added to set)
+#
+#
+##Removing elements
+# s = {1, 2, 3, 4, 5}
+# s.remove(3)
+# print(s)        #{1, 2, 4, 5}  (3 was removed)
+# s.remove(7)     #KeyError if the element does not exist
+# s.discard(2)
+# print(s)         #{1, 3, 4, 5}  (2 was removed)
+# s.discard(7)     #if element does not exist returns the same result
+# print(s)         #{1, 3, 4, 5}
+#
+# s.pop()           #removes and returns an arbitrary element
+#
+# s.clear()         #removes all elements from set
