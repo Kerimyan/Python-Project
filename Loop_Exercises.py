@@ -128,41 +128,7 @@
 #             res = x**y
 #     else:
 #         print("Incorrect option")
-#         continue#
-# print('Input 1st number, an action(+, -, *, /, **) and 2nd number: "5+2": (For exit input 0 0 0) ')
-# while True:
-#     try:
-#         x, a, y = input('------>').split()
-#     except ValueError:
-#         print('try again!')
 #         continue
-#     if x == '0' and y == '0' and a == '0':
-#         print('END')
-#         break
-#     try:
-#         x = int(x)
-#         y = int(y)
-#     except ValueError:
-#         print('Try again!')
-#         continue
-#     if a  == '+' or a == '-' or a == '*' or a == '**' or a == '/':
-#         if a == '+':
-#             res = x+y
-#         elif a == '-':
-#             res = x-y
-#         elif a == '*':
-#             res = x*y
-#         elif a == '/':
-#             res = x/y
-#         elif a == '**':
-#             res = x**y
-#     else:
-#         print("Incorrect option")
-#         continue
-#     print(f"{x} {a} {y} = {res}")
-#
-# ##################################
-
 #     print(f"{x} {a} {y} = {res}")
 #
 # ##################################
