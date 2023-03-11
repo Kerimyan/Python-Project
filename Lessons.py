@@ -1767,3 +1767,124 @@
 
 
 
+###LOOPS
+### 1. While loop
+#
+##example N1
+# i = 0
+# while i < 5:
+#     print(i)
+#     i += 1
+#
+##Output 0 1 2 3 4
+####
+#
+##example N2
+# i = 0
+# while True:
+#     print(i)
+#     i += 1
+#     if i > 5:
+#         print('limit is 5:')
+#         break
+#
+# ####Output 0 1 2 3 4 5 Limit is 5:
+
+##example N3  (Names)
+#
+# min_length = 3
+#
+# name = input("ehter your name: ")
+#
+# while not(len(name) >= min_length and name.isprintable() and name.isalpha()):
+#     name = input("please try again: ")
+#
+# print(f"Hello {name}")
+#
+# #############
+#
+##example N4  (Names)
+#
+# min_length = 3
+#
+# while True:
+#     name = input("ehter your name: ")
+#     if len(name) >= min_length and name.isprintable() and name.isalpha():
+#         break
+# print(f"Hello {name}")
+# #############
+#
+#
+##example N5  while else:
+# #
+# l = [1, 2, 3, 4, 5]
+# val = 7
+# indx = 0
+#
+# while indx < len(l):
+#     if l[indx] == val:
+#         print('7 is there! ')
+#         break
+#     indx += 1
+# else:
+#     l.append(val)
+#     print(f"{val} is appended to list: ")
+#
+# print(l)
+#
+# ##########
+#
+#
+
+
+
+
+### 2. Break, Continue, and the Try Statement
+#
+# try:
+#   print(x)
+# except NameError:
+#   print("Something went wrong")
+# finally:
+#   print("The 'try except' is finished")
+########
+#
+# a = 10
+# b = 4
+#
+# while a > 0:
+#     a -= 1
+#     b -= 1
+#     try:
+#         r = a // b
+#     except ZeroDivisionError:
+#         print(":ZeroDivisionError:: ")
+#     finally:
+#         print(f'the result is {r}')
+# else:
+#     print('_______________')
+#     print("end of loop!!!!")
+#
+########################################
+
+### 3. The For Loop
+#
+# for i in [5, 4, 3, 2, 1]:
+#     print(i)
+#####
+#
+# for i in range(10):
+#     print(i)
+####
+# for s in 'hello':
+#     print(s)
+######
+# for i in range(1, 10):
+#     print(i)
+#     if i == 7:
+#         print('7 is founded')
+#         break
+# else:
+#     print("Done")
+#####
+
