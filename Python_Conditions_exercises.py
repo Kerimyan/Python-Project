@@ -75,6 +75,7 @@
 
 
 ### 9. Find the roots of a quadratic equation and display them on the screen, if any. If there are no roots, then display a message about it. A specific quadratic equation is determined by the coefficients a, b, and c that the user enters.
+# from math import sqrt
 #
 # a = int(input("input 'a': "))
 # b = int(input("input 'b': "))
@@ -84,11 +85,11 @@
 # D = b**2 - 4 * a * c
 #
 # if D > 0:
-#     x_1 = (-b + D**2) / (2 * a)
-#     x_2 = (-b - D**2) / (2 * a)
+#     x_1 = (-b + sqrt(D)) / (2 * a)
+#     x_2 = (-b - sqrt(D)) / (2 * a)
 #     print('x1 is:', x_1)
 #     print('x2 is:', x_2)
 # else:
 #     print('there is no roots!! :')
 #
-##############################################################################
+# #############################################################################

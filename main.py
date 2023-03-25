@@ -10,6 +10,7 @@
 #         result = False
 #         break
 # print(result)
+import copy
 
 # ###Palindrome version 2
 # import re
@@ -42,4 +43,8 @@
 #     print('Your data is OUT of range of our data')
 #
 ###############################
+
+##########################################
+#
+
 

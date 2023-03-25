@@ -146,6 +146,7 @@
 # #             m = "A"
 # #         if m == 11:
 # #             m = "B"
+import abc
 
 # #, [27.02.23 23:32]
 # #         if m == 12:
@@ -1886,5 +1887,292 @@
 #         break
 # else:
 #     print("Done")
+#####################################
+
+
+
+
+ ###############################################################################################################################################
+ ###############################################################################################################################################
+ ###############################################################################################################################################
+
+
+###Functions
+
+### 1. Functions
+#
+# def func_1(a, b):
+#     return a * b
+#
+#
+# print(func_1(12, 2))
+##############
+#
+# def func_3():
+#     return func_4()
+#
+# def func_4():
+#     print("asdasasd")
+#
+# func_3()
+######
+#
+# def my_func(a, b=10, c=10):
+#     print(a, b, c)
+#
+# my_func(12)                 #12 10 10
+# my_func(20, 30, 40)         #20 30 40
+# my_func(20, c=40)           #20 10 40
+# my_func(b=40, c=50, a=12)   #12 40 50
 #####
+
+### 5. Unpacking Iterables
+#
+# a, b, c = 1, 2, 3
+# print(a)   #1
+# print(b)   #2
+# print(c)   #3
+# a, b, c = "XYZ"
+# print(a)   #X
+# print(b)   #Y
+# print(c)   #Z
+#  #####
+# a = 10
+# b = 20
+# a,b = b ,a
+# print(a)    #a = 20
+# print(b)    #b = 10
+
+####################
+
+
+
+### 7. Extended Unpacking
+## using  *
+# l = [1,2,3,4,5]
+# a, b = l[0], l[1:]   #we can achieve this using simple unpacking:
+# print(a, b)          #a = 1   b = 2,3,4,5
+#
+# a, *b = l              #we can also use the * operator:
+# print(a, b)            #a = 1   b = 2,3,4,5
+# a, *b, c = l
+# print(a, b, c)          #a = 1    b = 2, 3, 4     c = 5
+####
+## using **
+# d1 = {'a': 1, 'b': 2, 'c': 3}
+# d2 = {'d': 4, 'e': 5}
+# d3 = {'f': 6, 'g': 7}
+#
+# d = {**d1, **d2, **d3}  #we can use ** to unpack dicts.
+# print(d)                #{'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7}
+#
+## Nested Unpacking
+# l = [1, 2, [3, 4]]
+# a, b, (c, d) = l
+# print(a, b, c, d)      # a = 1    b = 2    c = 3   d = 4
+
+
+
+### 9-10. args
+#
+# def func1(a,b,*c):
+#     print(a)
+#     print(b)
+#     print(c)
+#
+# func1(1, 2, 3, 3, 4)  #a = 1  b = 2  c = (3, 3, 4)
+# func1(1, 2)      #a = 1  b = 2   c = ()
+########
+# def avg(*args):
+#     count = len(args)
+#     total = sum(args)
+#     if count == 0:
+#         return 0
+#     else:
+#         return total
+#
+# print(avg(1,2,3,4))    #10
+
+####OR
+#
+# def avg(*args):
+#     count = len(args)
+#     total = sum(args)
+#     return count and total    #if count is 0 returns 0(False and True --> returns False),  and if count great then 0 returns total
+#
+# print(avg())           #0
+# print(avg(1,2,3,4))    #10
+################
+# def func2(a, b, c):
+#     print(a)
+#     print(b)
+#     print(c)
+#
+#
+# l = [10, 20, 30]
+#
+# # func2(l)    #TypeError
+# func2(*l)     # 10 20 30
+#
+##############################
+
+
+
+
+### 11. Keyword Arguments
+# def myfunc(a, b, *c, d):
+#     print(a)
+#     print(b)
+#     print(c)
+#     print(d)
+#
+#
+# myfunc(12, 23, 45, 56, 67, d=777)      #a = 12  b = 23  c = (45, 56, 67)  d = 777
+####
+# def myfunc_2(*a, b):
+#     print(a)
+#     print(b)
+#
+# myfunc_2(1, 2)      #TypeError:
+# myfunc_2(1, b=2)      #  a = (1,)  b = 2
+#
+####
+# def func_3(*, d):
+#     print(d)
+#
+# func_3(11)       #TypeError
+# func_3(d=11)     #11
+####
+# def func_4(a, b, *, d):
+#     print(a)
+#     print(b)
+#     print(d)
+#
+# func_4(1, 2, 3, d=4)      #TypeError
+# func_4(1, 2, d=4)           #a = 1  b = 2  d = 4
+##########
+
+
+
+
+### 13. Kwargs
+#
+# def func(**kwargs):
+#     print(kwargs)
+# func(a = 12, b = 34, c = 45)     #kwargs = {'a': 12, 'b': 34, 'c': 45}
+# func()                           #kwargs = {}
+#
+# def func(*, d, **kwargs):
+#     print(d)
+#     print(kwargs)
+# func(d = 11, x = 5, y = 6, z = 7)      # d = 11   kwargs = {'x': 5, 'y': 6, 'z': 7}
+# func(d = 11)                           # d = 11   kwargs = {}
+#
+# def func(*args, **kwargs):
+#     print(args)
+#     print(kwargs)
+#
+# func(1, 2, 3, 4, a=5, b=6, c=7)         #  args = (1, 2, 3, 4)   kwargs = {'a': 5, 'b': 6, 'c': 7}
+#
+#
+# def func(a, b, *, d, **kwargs):
+#     print(a)
+#     print(b)
+#     print(d)
+#     print(kwargs)
+#
+# func(1, 2, x=33, y=44, s = 66, z=55, d=8)      # a = 1  b = 2  d = 8  kwargs = {'x': 33, 'y': 44, 's': 66, 'z': 55}
+
+
+
+
+### 16. Lambda Expressions
+#
+# myfunc = lambda x: print(x**2)
+#
+# myfunc(4)
+#
+#####
+# def test_func(x, func):
+#     return func(x)
+#
+# test_func(3, lambda x: x**2)          #returns 9 (3**2)
+# test_func(5, lambda x: x * 2 + 10)    #returns 20 (5 * 2 + 10)
+##########
+
+
+
+
+### 18. Lambdas and Sorting
+# d = {'a': 40, 'b': 30, 'c': 10, 'd': 20}
+#
+# print(sorted(d))                       #['a', 'b', 'c', 'd']  ((sorting by keys
+# print(sorted(d, key=lambda x: d[x]))   #['c', 'd', 'b', 'a']   (sorting by values
+ #####
+# l = ['Nike', 'Fila', 'Adidas', 'New Balance']
+#
+# print(sorted(l))                         #['Adidas', 'Fila', 'New Balance', 'Nike']  ((sorted by first letters
+# print(sorted(l, key=lambda s: s[-1]))    #['Fila', 'Nike', 'New Balance', 'Adidas']    ((sorted by last letters
+#
+##################
+
+
+
+### 20. Map, Filter, Zip, and List Comprehensions
+## the map function
+# l = [1, 2, 3, 4, 5]
+#
+# def sq(x):
+#     return x ** 2
+#
+# l1 = list(map(sq, l))  # will return [1, 4, 9, 16, 25]
+#
+####
+#
+## the filter function
+# l = [0, 1, 2, 3, 4, 5]
+# list(filter(None, l))     #will return [1, 2, 3, 4, 5]   (0 is Falsy)
+###
+# l = [0, 1, 2, 3, 4, 5]
+#
+# def is_even(n):
+#     return n % 2 == 0
+#
+# list(filter(is_even, l))   #will return [0, 2, 4]
+#
+## the zip function
+# l1 = [1,2,3,4]
+# l2 = [10,20,30,40]
+# l3 = 'abcd'
+#
+# list(zip(l1,l2,l3))       #[(1, 10, 'a'), (2, 20, 'b'), (3, 30, 'c'), (4, 40, 'd')]
+#####
+#
+##List Comprehensions
+# l = [2, 3, 4]
+#
+# l1 = [x ** 2 for x in l]
+# print(l1)       # [4, 9, 16]
+##
+# l1 = [1, 2, 3]
+# l2 = [10, 20, 30]
+#
+# l3 = [x + y for x, y in zip(l1, l2)]
+# print(l3)        #[11, 22, 33]
+#
+##Combining map and filter
+# l = range(10)
+#
+# l2 = list(filter(lambda a: a % 2 == 0, map(lambda x: x**2, l)))
+# print(l2)         #[0, 4, 16, 36, 64]
+#
+##############
+
+
+
+
+
+
+
+
 
