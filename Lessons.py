@@ -2174,5 +2174,308 @@ import abc
 
 
 
+########################################################################################################################################################
+########################################################################################################################################################
+########################################################################################################################################################
+
+
+
+### Decorators
+
+### 2. Decorators(Part 1)
+#
+# def counter(fn):
+#     count = 0
+#     def inner(*args, **kwargs):
+#         nonlocal count
+#         count += 1
+#         print(f'function {fn.__name__} was called {count} times')
+#         result = fn(*args, **kwargs)
+#         return result
+#     return inner
+#
+###
+# def add(a, b):
+#     return a + b
+#
+# add = counter(add)
+# print(add(13, 3))       #function add was called 1 times  16
+# print(add(2,3))         #function add was called 2 times 5
+#
+###
+# def mult(a, b, c,):
+#     return a * b * c
+# print(mult(2,3,1))     # 6
+# mult = counter(mult)
+# print(mult(2, 3, 1))     #function mult was called 1 times   6
+#
+###
+### @ Symbol
+# @counter             # use @counter instead of minus = counter(minus)
+# def minus(x, y):
+#     return x - y
+#
+# print(minus(5, 2))     #function minus was called 1 times   3
+#
+##############################
+
+
+
+### 3. Decorator Application (Timer)
+#
+#
+# def timeer_decorator(fn):
+#     from datetime import datetime
+#     from functools import wraps
+#
+#     @wraps(fn)
+#     def inner(*args, **kwargs):
+#         start = datetime.now()
+#         result = fn(*args,**kwargs)
+#         stop = datetime.now()
+#         elapsed = stop - start
+#
+#
+#         args_ = [str(a) for a in args]
+#         kwargs_ = [f'{k}={v}' for (k, v) in kwargs.items()]
+#         all_args = args_ + kwargs_
+#         args_str = ','.join(all_args)
+#
+#         print(f'{fn.__name__} {args_str} took {elapsed}s to run.')
+#
+#         return result
+#     return inner
+#
+##fibonacci
+# @timeer_decorator
+# def rec_fib(n):
+#     if n <= 2:
+#         return 1
+#     else:
+#         return rec_fib(n-1) + rec_fib(n-2)
+#
+#
+# print(rec_fib(5))
+#
+##fibonacci loop
+# @timeer_decorator
+# def fib_loop(n):
+#     fib_1 = 1
+#     fib_2 = 1
+#     for _ in range(3, n+1):
+#         fib_1, fib_2 = fib_2, fib_1+fib_2
+#     return fib_2
+#
+#
+# print(fib_loop(5))
+
+#######################
+
+
+
+### 4. Decorator Application (Logger, Stacked Decorators)
+#
+# # logged decorator
+# def logged(fn):
+#     from functools import wraps
+#     from datetime import datetime, timezone
+#
+#     @wraps(fn)
+#     def inner(*args, **kwargs):
+#         run_dt = datetime.now(timezone.utc)
+#         result = fn(*args, **kwargs)
+#         print(f'{run_dt}: called {fn.__name__}')
+#         return result
+#     return inner
+#
+# # timer decorator
+# def timeer_decorator(fn):
+#     from datetime import datetime
+#     from functools import wraps
+#
+#     @wraps(fn)
+#     def inner(*args, **kwargs):
+#         start = datetime.now()
+#         result = fn(*args,**kwargs)
+#         stop = datetime.now()
+#         elapsed = stop - start
+#
+#         print(f'{fn.__name__} run for {elapsed}s::')
+#
+#         return result
+#     return inner
+#
+# # factorial function  with 2 decorator
+# @timeer_decorator
+# @logged
+# def fuct(n):
+#     from operator import mul
+#     from functools import reduce
+#
+#     return reduce(mul, range(1,n+1))
+#
+#
+# print(fuct(4))
+#
+
+
+
+
+### 7. Decorators (Part 2)
+#
+# def timed(fn, reps):
+#     from time import perf_counter
+#
+#     def inner(*args, **kwargs):
+#         total_elap = 0
+#         for i in range(reps):
+#             start = perf_counter()
+#             result = fn(*args, **kwargs)
+#             end = perf_counter()
+#             total_elap += (end - start)
+#
+#         avg_run_time = total_elap / reps
+#         print(f'Avg run time: {avg_run_time}s:{reps} reps:')
+#         return result
+#     return inner
+#
+#
+# ##fibonacci function
+# def calc_fib_recurse(n):
+#     return 1 if n < 3 else calc_fib_recurse(n-2) + calc_fib_recurse(n-1)
+#
+#
+# ## @timed(10) #this is not going to be work
+# def fib(n):
+#     return calc_fib_recurse(n)
+#
+# fib = timed(fib, 10)
+#
+# print(fib(7))
+#
+#####
+######################
+## factory decarator
+#
+# def def_factory(reps):
+#     def timed(fn):
+#         from time import perf_counter
+#
+#         def inner(*args, **kwargs):
+#             total_elap = 0
+#             for i in range(reps):
+#                 start = perf_counter()
+#                 result = fn(*args, **kwargs)
+#                 end = perf_counter()
+#                 total_elap += (end - start)
+#
+#             avg_run_time = total_elap / reps
+#             print(f'Avg run time: {avg_run_time}s:{reps} reps:')
+#             return result
+#         return inner
+#     return timed
+#
+# ##fibonacci function
+# def calc_fib_recurse(n):
+#     return 1 if n < 3 else calc_fib_recurse(n-2) + calc_fib_recurse(n-1)
+#
+#
+# @def_factory(10) #now it going to be work
+# def fib(n):
+#     return calc_fib_recurse(n)
+#
+# print(fib(7))
+#
+########################################
+
+
+
+
+### 1. Decorator Application (Decorator Class)
+## example of Decorator Class
+# class MyClass:
+#     def __init__(self, a, b):
+#         self.a = a
+#         self.b = b
+#
+#     def __call__(self, fn):
+#         def inner(*args, **kwargs):
+#             print(f'decarater function called: a={self.a}, b={self.b} ')
+#             return fn(*args,**kwargs)
+#
+#         return inner
+#
+# @MyClass(10, 20)
+# def my_func(s):
+#     print(f'runing my_func: argument={s}')
+#
+# my_func(5)
+#
+#####################################
+
+
+
+
+
+### 2.Decorator Application (Decorating Classes)
+#
+# from datetime import datetime, timezone
+#
+# def info(self):
+#     results = []
+#     results.append(f'time: {datetime.now(timezone.utc)}')
+#     results.append(f'Class: {self.__class__.__name__}')
+#     results.append(f'ID: {hex(id(self))}')
+#     for k, v in vars(self).items():
+#         results.append(f'{k}:{v}')
+#     return results
+#
+# def debug_info(cls):
+#     cls.debag = info
+#     return cls
+#
+# @debug_info
+# class Person:
+#     def __init__(self, name, birth_year):
+#         self.name = name
+#         self.birth_year = birth_year
+#
+#     def say_hi():
+#         return 'Hello there!'
+#
+# # p = Person('AKA', 1999)
+# # print(p.debag())                #['time: 2023-03-31 16:28:12.863710+00:00', 'Class: Person', 'ID: 0x7f7e6555a950', 'name:AKA', 'birth_year:1999']
+#
+#
+# @debug_info
+# class Auto:
+#     def __init__(self, make, model, year, top_speed):
+#         self.make = make
+#         self.model = model
+#         self.year = year
+#         self.top_speed = top_speed
+#         self.speed = 0
+#
+#     @property
+#     def speed(self):
+#         return self._speed
+#
+#     @speed.setter
+#     def speed(self, new_speed):
+#         if new_speed > self.top_speed:
+#             raise ValueError("Speed can't exceed top_speed.")
+#         else:
+#             self._speed = new_speed
+#
+# favorite = Auto('Ford', 'Model T', 1908, 45)
+#
+# print(favorite.debag())
+
+
+######################################################################################################################################################
+######################################################################################################################################################
+######################################################################################################################################################
+
+
 
 
