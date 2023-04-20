@@ -146,7 +146,10 @@
 # #             m = "A"
 # #         if m == 11:
 # #             m = "B"
-import abc
+# import abc
+# import random
+# import math
+
 
 # #, [27.02.23 23:32]
 # #         if m == 12:
@@ -2444,7 +2447,7 @@ import abc
 #         return 'Hello there!'
 #
 # # p = Person('AKA', 1999)
-# # print(p.debag())                #['time: 2023-03-31 16:28:12.863710+00:00', 'Class: Person', 'ID: 0x7f7e6555a950', 'name:AKA', 'birth_year:1999']
+# # print(p.debag())        #['time: 2023-03-31 16:28:12.863710+00:00', 'Class: Person', 'ID: 0x7f7e6555a950', 'name:AKA', 'birth_year:1999']
 #
 #
 # @debug_info
@@ -2475,6 +2478,652 @@ import abc
 ######################################################################################################################################################
 ######################################################################################################################################################
 ######################################################################################################################################################
+
+
+
+
+### Iterators
+
+### 2. Iterating Collections
+
+# class Squares:
+#     def __init__(self):
+#         self.i = 0
+#
+#     def next_1(self):
+#         res = self.i ** 2
+#         self.i+=1
+#         return res
+#
+# sq = Squares()
+#
+# print(sq.next_1())   #0
+# print(sq.next_1())   #1
+# print(sq.next_1())   #4
+# print(sq.next_1())   #9
+# print(sq.next_1())   #16
+#
+##or with loops
+#
+# for i in range(5):
+#     print(sq.next_1())
+#
+###
+### StopIteration
+#
+# class Squares:
+#     def __init__(self, lenght):
+#         self.lenght = lenght
+#         self.i = 0
+#
+#     def __len__(self):
+#         return self.lenght
+#
+#     def __next__(self):
+#         if self.i >= self.lenght:
+#             raise StopIteration
+#         else:
+#             res = self.i ** 2
+#             self.i+=1
+#             return res
+#
+# sq = Squares(4)
+#
+# print(sq.__next__()) #  0
+# print(sq.__next__()) #  1
+# print(sq.__next__()) #  4
+# print(sq.__next__()) #  StopIteration
+
+# sq = Squares(10)
+#
+# while True:
+#     try:
+#         print(sq.__next__())
+#     except StopIteration:
+#         break
+#
+#
+# class RandomNumber:
+#     import random
+#     def __init__(self, len, *, range_min=0,range_max=10):
+#         self.len = len
+#         self.range_min = range_min
+#         self.range_max = range_max
+#         self.num_requested = 0
+#
+#     def __len__(self):
+#         return self.len
+#
+#     def __next__(self):
+#         if self.num_requested >= self.len:
+#             raise StopIteration
+#         else:
+#             self.num_requested += 1
+#             return random.randint(self.range_min, self.range_max)
+#
+# r_num = RandomNumber(3)
+#
+# print(next(r_num))   #random numb
+# print(next(r_num))   #random numb
+# print(next(r_num))   #random numb
+# print(next(r_num))   #StopIteration
+
+
+
+### 4. Iterators - Coding
+# class Squares:
+#     def __init__(self, lenght):
+#         self.lenght = lenght
+#         self.i = 0
+#
+#     def __len__(self):
+#         return self.lenght
+#
+#     def __iter__(self):
+#         return self
+#
+#     def __next__(self):
+#         if self.i >= self.lenght:
+#             raise StopIteration
+#         else:
+#             res = self.i ** 2
+#             self.i+=1
+#             return res
+#
+#
+# sq = Squares(4)
+#
+# print(list(enumerate(sq)))  #[(0, 0), (1, 1), (2, 4), (3, 9)]
+#
+# print(sq.__next__())   #StopIteration
+
+
+
+
+### 6. Iterators and Iterables - Coding
+#
+# # creating a simple class
+# class Cities:
+#     def __init__(self):
+#         self.cities = ['Paris', 'Barcelona', 'LA', 'London', 'Yerevan']
+#         self.index = 0
+#
+#     def __len__(self):
+#         return len(self.cities)
+
+# ## creating a simple iterator
+# class CityIterator:
+#     def __init__(self, cities_obj):
+#         self.cities_obj = cities_obj
+#         self.index = 0
+#
+#     def __iter__(self):
+#         return self
+#
+#     def __next__(self):
+#         if self.index >= len(self.cities_obj):
+#             raise StopIteration
+#         else:
+#             item = self.cities_obj.cities[self.index]
+#             self.index+=1
+#             return item
+#
+#
+# city_iterator = CityIterator(Cities())
+#
+# for city in city_iterator:
+#     print(city)                #should print all cities in Cities class
+#
+# print(next(city_iterator))    #should rise a StopIteration error
+#
+#
+#
+# city_iterator = CityIterator(Cities())
+#
+# print(next(city_iterator))    #should return first city in Cities class
+#
+#
+####
+####
+# creating a simple iterator
+# class CityIterator:
+#     def __init__(self, cities_obj):
+#         self.cities_obj = cities_obj
+#         self.index = 0
+#
+#     def __iter__(self):
+#         return self
+#
+#     def __next__(self):
+#         if self.index >= len(self.cities_obj):
+#             raise StopIteration
+#         else:
+#             item = self.cities_obj.cities[self.index]
+#             self.index+=1
+#             return item
+#
+# # creating a simple iterable
+# class Cities:
+#     def __init__(self):
+#         self.cities = ['Paris', 'Barcelona', 'LA', 'London', 'Yerevan']
+#         self.index = 0
+#
+#     def __len__(self):
+#         return len(self.cities)
+#
+#     def __iter__(self):
+#         return CityIterator(self)
+#
+#
+#
+# cities = Cities()
+#
+# for city in cities:
+#     print(city)    ##should print all cities in Cities class
+#
+# ## we can do that again
+# for city in cities:
+#     print(city)    ##should print all cities in Cities class
+#
+
+######
+######
+
+
+### 8. Example 2 - Cyclic Iterators
+#
+# class CyclicIterator:
+#     def __init__(self, lst):
+#         self.lst = lst
+#         self.i = 0
+#
+#     def __iter__(self):
+#         return self
+#
+#     def __next__(self):
+#         result = self.lst[self.i % len(self.lst)]
+#         self.i +=1
+#         return result
+#
+# iter_cycl = CyclicIterator('NSWE')
+#
+# nums = range(10)
+#
+# print(list(zip(list(nums), iter_cycl)))     #[(0, 'N'), (1, 'S'), (2, 'W'), (3, 'E'), (4, 'N'), (5, 'S'), (6, 'W'),
+#                                             # (7, 'E'), (8, 'N'), (9, 'S')]
+#
+# iter_cycl = CyclicIterator('NSWE')
+#
+# n = 10
+#
+# for i in range(1, n+1):
+#     direction = next(iter_cycl)
+#     print(f'{i}{direction}')    #1N 2S 3W 4E 5N 6S 7W 8E 9N 10S
+#
+# items = [str(i) + next(iter_cycl) for i in range(1, n+1)]
+# print(items)                   #['1W', '2E', '3N', '4S', '5W', '6E', '7N', '8S', '9W', '10E']
+#
+#
+#
+#
+# #########
+#########
+
+
+
+
+### 10. Lazy Iterables - Coding
+# import math
+#
+#
+# class Circle:
+#     def __init__(self, r):
+#         self.radius = r
+#         self._area = None
+#
+#     @property
+#     def radius(self):
+#         return self._radius
+#
+#     @radius.setter
+#     def radius(self, r):
+#         self._radius = r
+#         self._area = None
+#
+#     @property
+#     def area(self):
+#         if self._area is None:
+#             print("Calculating area::")
+#             self._area = math.pi * (self.radius ** 2)
+#         return self._area
+#
+#
+# c = Circle(2)
+#
+# print(c.area)
+# print(c.area)
+#####################
+###################
+#
+# import math
+#
+#
+# class Factorials:
+#     def __init__(self, lenght):
+#         self.lenght = lenght
+#
+#     def __iter__(self):
+#         return self.FactIter(self.lenght)
+#
+#     class FactIter:
+#         def __init__(self, lenght):
+#             self.lenght = lenght
+#             self.i = 0
+#
+#         def __iter__(self):
+#             return self
+#
+#         def __next__(self):
+#             if self.i >= self.lenght:
+#                 raise StopIteration
+#             else:
+#                 res = math.factorial(self.i)
+#                 self.i += 1
+#                 return res
+#
+#
+# facts = Factorials(5)
+#
+# print(list(facts))     #[1, 1, 2, 6, 24]
+
+
+
+
+
+### 12. Python's Built-In Iterables and Iterators - Coding
+#
+# ## range
+# r = range(10)
+#
+# print('__iter__' in dir(r))   #True
+# print('__next__' in dir(r))   #False
+# """ so range object is iterable"""
+#
+# """we can use that multipul times"""
+# for num in r:
+#     print(num)
+#
+# for num in r:
+#     print(num)
+#
+# print([num for num in r])
+#
+#
+## zip
+# z = zip([1,2,3], 'abc')
+#
+# print('__iter__' in dir(z))   #True
+# print('__next__' in dir(z))   #True
+# """ zip is a iterator: """
+#
+# """we can use it only one time"""
+# print(list(z))              #[(1, 'a'), (2, 'b'), (3, 'c')]
+# print(list(z))              #[]
+#
+#
+## open
+# f = open('Games.py')
+# print('__iter__' in dir(f))   #True
+# print('__next__' in dir(f))   #True
+# """ open object is a iterator: """
+#
+# """we can use f only one time"""
+# for line in f:
+#     print(line)
+#
+# for line in f:
+#     print(line)
+#
+#
+# """or we can do 'with open(file_name) as f' :"""
+# with open('Games.py') as f:
+#     for row in f:
+#         print(row, end='')
+#
+#
+# """we can also do it with 'redline':
+#     but this way not recomended;
+#     it gonna append all lines in list 'l' """
+# with open('Games.py') as f:
+#     l = f.readlines()
+#
+# print(l)
+
+
+
+
+
+### 18. Example 3 - Delegating Iterators
+#
+# from collections import namedtuple
+#
+# Person = namedtuple('Person', 'first last')
+#
+# class PersonName:
+#     def __init__(self, persons):
+#         try:
+#             self._persons = [person.first.capitalize() + ' ' + person.last.capitalize() for person in persons]
+#         except (TypeError, AttributeError):
+#             self._persons = []
+#
+#     def __iter__(self):
+#         return iter(self._persons)
+#
+#
+# persons = [Person('micheaL', 'palin',), Person('john', 'Wick'), ]
+#
+# person_names = PersonName(persons)
+# print(person_names._persons)         #['Micheal Palin', 'John Wick']
+#
+# for i in person_names:
+#     print(i)
+
+
+
+
+
+########################################################################################################################
+########################################################################################################################
+########################################################################################################################
+
+
+
+### Generators
+
+### 2,3. Yielding and Generator Functions
+#
+# def my_func():
+#     print('line 1')
+#     yield 'Flying'
+#     print('line 2')
+#     yield 'Circus'
+#
+# print(type(my_func))    #<class 'function'>
+#
+# f = my_func()
+# print(type(f))         #<class 'generator'>
+#
+# a = next(f)              #line 1
+# print(a)                 #Flying
+#
+# b = next(f)              #line 2
+# print(b)                 #Circus
+###
+#
+# def silly():
+#     yield 1
+#     yield 2
+#     yield 3
+#     yield 4
+#     yield 5
+#
+# s = silly()
+#
+# for i in s:
+#     print(i)
+#
+####
+##################
+
+
+
+
+### 3. Example - Fibonacci Sequence
+#
+# ##fibonacci recursive
+#
+# def fib_rec(n):
+#     if n <= 1:
+#         return 1
+#     else:
+#         return fib_rec(n-1) + fib_rec(n-2)
+#
+# print([fib_rec(i) for i in range(50)])       #[1, 1, 2, 3, 5, 8, 13]
+#
+#
+## fibonacci generator
+#
+# def fib(n):
+#     fib_0 = 1
+#     yield fib_0
+#     fib_1 = 1
+#     yield fib_1
+#     for i in range(n-2):
+#         fib_0, fib_1 = fib_1, fib_0 + fib_1
+#         yield fib_1
+#
+# f = fib(7)
+# for i in f:
+#     print(i)
+#
+#
+# ########
+
+
+
+
+
+### 5. Making an Iterable from a Generator
+#
+# def squares_gen(n):
+#     for i in range(n):
+#         yield i**2
+#
+# sq = squares_gen(5)
+#
+# """so we can use it only ones"""
+# for i in sq:
+#     print(i)   #0 1 4 9 16
+#
+# for j in sq:
+#     print(j)  # None
+#
+###
+# """we need to make iterable"""
+# def squares_gen_1(n):
+#     for i in range(n):
+#         yield i**2
+#
+# class Squares:
+#     def __init__(self, n):
+#         self.n = n
+#     def __iter__(self):
+#         return squares_gen_1(self.n)
+#
+#
+# """or we can do it this way"""
+# class Squares:
+#     def __init__(self, n):
+#         self.n = n
+#     def __iter__(self):
+#         return squares_gen_1(self.n)
+#
+#     @staticmethod
+#     def squares_gen_1(n):
+#         for i in range(n):
+#             yield i ** 2
+#
+#
+# """now we can use it more then one time"""
+#
+# sq = Squares(5)
+# for i in sq:
+#     print(i)    #0 1 4 9 16
+#
+# for i in sq:
+#     print(i)    #0 1 4 9 16
+#
+#
+######################
+######################
+######################
+
+
+
+### 8. Generator Expressions and Performance
+# """simple geneator expressions"""
+# g = (i**2 for i in range(5))
+#
+# print(type(g))        #<class 'generator'>
+#
+# for item in g:
+#     print(item)
+#
+####
+# start = 1
+# stop = 10
+#
+# mult_list_gen = ((i * j for i in range(start, stop+1))
+#                         for j in range(start, stop+1))
+#
+# for line in mult_list_gen:
+#     for item in line:
+#         print(item, end=" ")
+#     print('')
+#
+#
+# #
+# ###################
+##############
+
+
+
+
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+
+
+### Modules, Packages and Namespaces
+
+### 4. Imports and import lib
+#
+# ## Example 1
+# # mod_name = 'math'
+# # import mod_name       # ModuleNotFoundError:
+#
+# import importlib
+# import sys
+#
+# importlib.import_module('math')
+#
+# print('math' in sys.modules)     # True
+#
+# # print(math.sqrt(2))           # NameError:
+# """because 'math' is not in globals() """
+# print('math' in globals())      #False
+# ###
+# math2 = importlib.import_module('math')
+# print('math2' in globals())      #True
+# print(math2.sqrt(2))           # 1.4142135623730951
+
+
+
+
+
+
+### 9. Modules Recap
+## importing build-in module
+# import math
+# print(type(math))        # <class 'module'>
+# print(math.__spec__)     # ModuleSpec(name='math', loader=<class '_frozen_importlib.BuiltinImporter'>, origin='built-in')
+# print(math.__name__)     # math
+# print(math.__package__)  # ''
+# """__file__ is not an atribute of math   (build-ins only)  """
+#
+####
+# ## importing standard librarys
+# import fractions
+# print(type(fractions))        # <class 'module'>
+# print(fractions.__spec__)     # ModuleSpec(name='fractions', loader=<_frozen_importlib_external.SourceFileLoader
+#                               # object at 0x7f79be5f76d0>, origin='/usr/lib/python3.10/fractions.py'))
+# print(fractions.__name__)     # fractions
+# print(fractions.__package__)  # ''
+# print(fractions.__file__)     #/usr/lib/python3.10/fractions.py
+#
+####
+## importing castom module
+# import test
+# print(type(test))        # <class 'module'>
+# print(test.__spec__)     # ModuleSpec(name='test', loader=<_frozen_importlib_external.SourceFileLoader
+#                          # object at 0x7fbf5fa576d0>, origin='/home/kerimyan/PycharmProjects/pythonProject/test.py')
+# print(test.__name__)     # test
+# print(test.__package__)  # ''
+# print(test.__file__)     #/home/kerimyan/PycharmProjects/pythonProject/test.py
+#
+###########################
 
 
 

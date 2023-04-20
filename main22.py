@@ -10,7 +10,7 @@
 #         result = False
 #         break
 # print(result)
-import copy
+#import copy
 
 # ###Palindrome version 2
 # import re
