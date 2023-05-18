@@ -1288,7 +1288,8 @@
 #   return len(s)
 # sorted(t, key=sort_key)        #will return sorted words in list (based on the length of strings)
 #
-# sorted(t, key=lambda s: len(s))  #will return the same thing as with |def sort_key(s): |  ill return sorted words in list (based on the length of strings)
+# sorted(t, key=lambda s: len(s))  #will return the same thing as with |def sort_key(s): |
+#                                  # itll return sorted words in list (based on the length of strings)
 #
 #
 ##l.sort
@@ -1375,9 +1376,9 @@
 # print(result)   #will return the same result as the zip.
 
 
-#################################################################################################################################################################
-#################################################################################################################################################################
-
+#####################################################################################################################
+#####################################################################################################################
+#####################################################################################################################
 ### Hash Maps(dict, set)
 ###dict
 ### 2-3. Creating Dictionaries
@@ -1428,8 +1429,10 @@
 # d = {'a': 123, 'b': [1, 2, 33, 4], 'c': {'aa': 222, 'bb': 333}}
 # d_copy = dict(d)
 #
-# print(d, id(d))                #the result must be same but id not  ((   {'a': 123, 'b': [1, 2, 33, 4], 'c': {'aa': 222, 'bb': 333}} 140006329804928
-# print(d_copy, id(d_copy))      #the result must be same but id not  ((   {'a': 123, 'b': [1, 2, 33, 4], 'c': {'aa': 222, 'bb': 333}} 140006329835968
+# print(d, id(d))             #the result must be same but id not  ((   {'a': 123, 'b': [1, 2, 33, 4], 'c': {'aa': 222, 'bb': 333}}
+#                             # 140006329804928
+# print(d_copy, id(d_copy))   #the result must be same but id not  ((   {'a': 123, 'b': [1, 2, 33, 4], 'c': {'aa': 222, 'bb': 333}}
+#                             #  140006329835968
 #
 #
 # d_copy['c'] = 12333           #the value of 'c' must change in d_copy but not d
@@ -1575,9 +1578,9 @@
 
 
 
-#################################################################################################################################################
-#################################################################################################################################################
-
+#####################################################################################################################
+#####################################################################################################################
+#####################################################################################################################
 
 
 
@@ -1765,10 +1768,9 @@
  ###
 
 
- #######################################################################################################################################################################
- #######################################################################################################################################################################
- #######################################################################################################################################################################
-
+ #####################################################################################################################
+ #####################################################################################################################
+ #####################################################################################################################
 
 
 ###LOOPS
@@ -1895,10 +1897,9 @@
 
 
 
- ###############################################################################################################################################
- ###############################################################################################################################################
- ###############################################################################################################################################
-
+ ######################################################################################################################
+ ######################################################################################################################
+ ######################################################################################################################
 
 ###Functions
 
@@ -2177,10 +2178,9 @@
 
 
 
-########################################################################################################################################################
-########################################################################################################################################################
-########################################################################################################################################################
-
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
 
 
 ### Decorators
@@ -2447,7 +2447,8 @@
 #         return 'Hello there!'
 #
 # # p = Person('AKA', 1999)
-# # print(p.debag())        #['time: 2023-03-31 16:28:12.863710+00:00', 'Class: Person', 'ID: 0x7f7e6555a950', 'name:AKA', 'birth_year:1999']
+# # print(p.debag())      #['time: 2023-03-31 16:28:12.863710+00:00', 'Class: Person', 'ID: 0x7f7e6555a950', 'name:AKA',
+#                         # 'birth_year:1999']
 #
 #
 # @debug_info
@@ -2475,9 +2476,9 @@
 # print(favorite.debag())
 
 
-######################################################################################################################################################
-######################################################################################################################################################
-######################################################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
 
 
 
@@ -3128,3 +3129,525 @@
 
 
 
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+
+
+### 2. Context Managers - Coding
+#
+# """it will create a new file and write to it"""
+# with open('test.txt', 'w') as f:
+#     f.writelines('This is a new test file ')
+#
+# with open('test5.txt') as f:
+#     l = next(f)
+#
+# print(l)      #'This is a new test file '
+#
+##.....
+
+
+
+### 3. Caveat when used with Lazy Iterators
+# import csv
+#
+# def read_data():
+#     with open('test.csv') as f:
+#         yield from csv.reader(f, delimiter=',', quotechar='"')
+#
+# reader = read_data()
+# print(type(reader))     #<class 'generator'>
+#
+#
+# for row in reader:
+#     print(row)
+#
+# """or we can do this..."""
+# for _ in range(2):
+#     print(next(reader))
+####
+
+
+
+### 4. Not just a Context Manager
+#
+# class DataIterator:
+#     def __init__(self, fname):
+#         self._fname = fname
+#         self._f = None
+#
+#     def __iter__(self):
+#         return self
+#
+#     def __next__(self):
+#         row = next(self._f)
+#         return row.strip('/n').split(',')
+#
+#     def __enter__(self):
+#         self._f = open(self._fname)
+#         return self
+#
+#     def __exit__(self, exc_type, exc_val, exc_tb):
+#         if not self._f.closed:
+#             self._f.close()
+#         return False
+#
+#
+# with DataIterator('test.csv') as data:
+#     for row in data:
+#         print(row)
+#
+####################
+
+
+
+### 6. Additional Uses - Coding
+#
+### Change-reset context
+# import decimal
+#
+# class Precision:
+#     def __init__(self, prec):
+#         self._prec = prec
+#         self.real_prec = decimal.getcontext().prec
+#
+#     def __enter__(self):
+#         decimal.getcontext().prec = self._prec
+#
+#     def __exit__(self, exc_type, exc_val, exc_tb):
+#         decimal.getcontext().prec = self.real_prec
+#         return False
+#
+# with Precision(3):
+#     print(decimal.Decimal(1) / decimal.Decimal(3))      # 0.333
+#
+# print(decimal.Decimal(1) / decimal.Decimal(3))          # 0.3333333333333333333333333333
+#
+# #####
+# """But in fact decimal has a context manager"""
+# """It will work the same vay!"""
+# with decimal.localcontext() as ctx:
+#     ctx.prec = 3
+#     print(decimal.Decimal(1) / decimal.Decimal(3))      # 0.333
+#
+# print(decimal.Decimal(1) / decimal.Decimal(3))          # 0.3333333333333333333333333333
+#
+#
+### Timer context manager
+# from time import perf_counter, sleep
+# class Timer:
+#     def __init__(self):
+#         self.elapsed = 0
+#
+#     def __enter__(self):
+#         self.start = perf_counter()
+#         return self
+#
+#     def __exit__(self, exc_type, exc_val, exc_tb):
+#         self.stop = perf_counter()
+#         self.elapsed = self.stop - self.start
+#         return False
+#
+# with Timer() as timer:
+#     sleep(2)
+#
+# print(timer.elapsed)        # 2.000678701002471
+#
+#
+######
+#
+### List marek context manager
+#
+# class ListMaker:
+#     def __init__(self, title, prefix='-- ', indent=3):
+#         self.title = title
+#         self.prefix = prefix
+#         self.indent = indent
+#         self.courrent_indent = 0
+#         print(title)
+#
+#     def __enter__(self):
+#         self.courrent_indent += self.indent
+#         return self
+#
+#     def __exit__(self, exc_type, exc_val, exc_tb):
+#         self.courrent_indent -= self.indent
+#         return False
+#
+#     def line_pr(self, arg):
+#         s = ' ' * self.courrent_indent + self.prefix + str(arg)
+#         print(s)
+#
+# with ListMaker('-TITLE-') as lm:
+#     lm.line_pr('Line 1')
+#     lm.line_pr('Line 2')
+#     with lm:
+#         lm.line_pr('Sub-Line 1')
+#         lm.line_pr('Sub-Line 2')
+#
+#
+#
+###################
+
+
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+
+
+
+
+### OOP
+
+### 6. Class Attributes - Coding
+#
+# class Program:
+#     language = 'Python'
+#     version = '3.6'
+#
+# print(type(Program))     # <class 'type'>
+###
+# """Get attribute"""
+# print(Program.language)   # Python
+# print(Program.version)    # 3.6
+# '''we can also use functions'''
+# print(getattr(Program, 'language'))   # Python
+# print(getattr(Program, 'version'))    # 3.6
+#
+# '''if attribute does not exist....'''
+#
+## print(getattr(Program, 'x'))         # AttributeError:
+# print(getattr(Program, 'x', 'D/A'))         # D/A
+####
+# """Set attribute..."""
+#
+# Program.version = '3.8'
+# print(Program.version)    # 3.8
+# '''or with function 'setattr()' ...'''
+# setattr(Program, 'version', '3.10')
+# print(Program.version)   # 3,10
+#
+###
+# """Remove attribute..."""
+#
+# del Program.version
+# '''or with function 'delattr()' ...'''
+# delattr(Program, 'version')
+######
+# print(Program.__dict__)  # {'__module__': '__main__', 'language': 'Python',
+                         # 'version': '3.6', '__dict__': <attribute '__dict__' of 'Program' objects>,
+                         # '__weakref__': <attribute '__weakref__' of 'Program' objects>, '__doc__': None}
+
+
+################
+
+
+
+
+### 8. Callable Class Attributes - Coding
+#
+# class Program:
+#     language = 'Python'
+#
+#     def say_hello():
+#         print(f'Hello from {Program.language}')
+#
+#
+# print(Program.say_hello())      #Hello from Python
+# print(getattr(Program, 'say_hello')())   #Hello from Python
+# #or
+# my_func = Program.say_hello
+# print(my_func())      #Hello from Python
+
+####
+
+
+
+### 12. Data Attributes - Coding
+# class BankAccount:
+#     apr = 1.2
+#
+# acc_1 = BankAccount()
+# acc_2 = BankAccount()
+#
+# print(acc_1 is acc_2)    # False
+#
+# print(acc_1.__dict__)   # {}
+# print(acc_2.__dict__)   # {}
+#
+# print(acc_1.apr)      # 1.2
+# print(acc_2.apr)      # 1.2
+# """It first looks for it in the instance attribute ('acc_1.__dict__')
+# then in the class attribute ('BankAccount.__dict__') ...'"""
+#
+#
+# acc_1.apr = 0
+# print(acc_1.__dict__)   # {'apr': 0}
+# print(acc_2.__dict__)   # {}
+# print(acc_1.apr)      # 0
+# print(acc_2.apr)      # 1.2
+#
+# ###
+# print(type(BankAccount.__dict__))     # <class 'mappingproxy'>
+# print(type(acc_2.__dict__))           # <class 'dict'>
+# """Type of 'acc_1.__dict__' is not 'mappingproxy' it's 'dict', so we can manipulate it..."""
+# ## Example
+# acc_2.__dict__['apr'] = 3
+# print(acc_2.apr)   # 3
+#
+#
+#####
+
+
+
+### 14. Function Attributes - Coding
+#
+# class Person:
+#     name = "A"
+#
+#     def say_hello(obj):
+#         print(f'Hello from {a.name}')
+#
+#     def set_name(ins_obj, new_name):
+#         ins_obj.name = new_name
+#
+# a = Person()
+# print(type(Person.say_hello))     #<class 'function'>
+# print(type(a.say_hello))          #<class 'method'>
+# print(a.__dict__)                 # {}
+# print(a.say_hello())              # Hello from A
+#
+# a.set_name('Karlenchik')          # or -->  Person.set_name(p, 'Karlenchik')
+# print(a.__dict__)                 # {'name': 'Karlenchik'}
+# print(a.say_hello())              # Hello from Karlenchik
+#
+
+
+
+
+
+### 16. Initializing Class Instances - Coding
+#
+# class Person:
+#     def __init__(self, name):
+#         self.name = name
+#
+# p = Person('Jhon')
+# print(p.__dict__)      # {'name': 'Jhon'}
+# print(p.name)          # Jhon
+#
+#
+#
+
+
+
+### 18.Creating Attributes at Run-Time - Coding
+# from types import MethodType
+#
+# class Person:
+#     def __init__(self, name):
+#         self.name = name
+#
+#
+# p1 = Person('Eric')
+# p2 = Person('Alex')
+#
+# print(p1.__dict__, p2.__dict__)     #{'name': 'Eric'} {'name': 'Alex'}
+#
+# p1.say_hello = MethodType(lambda self: f'{self.name} says hello:', p1)
+#
+# print(p1.__dict__)   #{'name': 'Eric', 'say_hello': <bound method <lambda> of <__main__.Person object at 0x7efdc3f3a860>>}
+# print(p2.__dict__)   #{'name': 'Alex'}
+# print(p1.say_hello())    # Eric says hello:
+# ################
+#
+# from types import MethodType
+#
+# class Person:
+#     def __init__(self, name):
+#         self.name = name
+#
+#     def register_do_work(self, func):
+#         setattr(self, '_do_work', MethodType(func, self))
+#
+#     def do_work(self):
+#         do_work_method = getattr(self, '_do_work', None)
+#
+#         if do_work_method:
+#             return do_work_method()
+#         else:
+#             raise AttributeError('You must first register a do_work method::')
+#
+#
+# math_t = Person('Vazgush')
+# Phisic_t = Person('Varazdat')
+#
+# def work(self):
+#     return f'{self.name} will do work::'
+#
+#
+# # print(math_t.do_work())     # AttributeError: You must first register a do_work method::
+#
+# math_t.register_do_work(work)
+#
+# print(math_t.do_work())     # Vazgush will do work::
+#
+#
+
+
+### 20. Properties - Coding
+# class Person:
+#     def __init__(self, name):
+#         self.set_name(name)
+#         """Instead useing 'self._name = name' we use ' self.set_name(name)' for seting name"""
+#
+#     def get_name(self):
+#         return self._name
+#
+#     def set_name(self, value):
+#         if isinstance(value, str) and len(value.strip())> 0:
+#             self._name = value.strip()
+#         else:
+#             raise ValueError
+#
+#
+# # p = Person(100)  #ValueError
+#
+# p = Person('AK')
+# print(p.get_name())  # AK
+# p.set_name('Eric')
+# print(p.get_name())
+#########
+#
+# # """Property"""
+#
+# class Person:
+#     def __init__(self, name):
+#         self._name = name
+#
+#     def get_name(self):
+#         return self._name
+#
+#     def set_name(self, value):
+#         if isinstance(value, str) and len(value.strip())> 0:
+#             self._name = value.strip()
+#         else:
+#             raise ValueError
+#
+#     def del_name(self):
+#         del self._name
+#
+#     name = property(fget=get_name, fset=set_name, fdel=del_name)
+#
+#
+# p = Person('John')
+# print(p.__dict__)  #{'_name': 'John'}
+# print(p.name)    # John
+#
+# p.name = 'John Wick'
+# print(p.__dict__)   #{'_name': 'John Wick'}
+# print(p.name)    #John Wick
+# del p.name
+# print(p.__dict__)   # {}
+# print(p.name)       # AttributeError:
+###################
+
+
+
+
+
+### 22. Property Decorators - Coding
+#
+# class Person:
+#     def __init__(self, name):
+#         self._name = name
+#
+#     @property
+#     def name(self):
+#         return self._name
+#
+#     @name.setter
+#     def name(self,value):
+#         self._name = value
+#
+#
+# p = Person('Alex')
+#
+# print(p.name)  #Alex
+#
+# p.name = 'John'
+# print(p.name)  #John
+#
+###################
+
+
+
+### 24. Read-Only and Computed Properties - Coding
+#
+# from math import pi
+#
+# class Circle:
+#     def __init__(self, radius):
+#         self._radius = radius
+#         self._area = None
+#
+#     @property
+#     def radius(self):
+#         return self._radius
+#
+#     @radius.setter
+#     def radius(self, value):
+#         self._area = None
+#         self._radius = value
+#
+#     @property
+#     def area(self):
+#         if self._area is None:
+#             print('Calculating area...')
+#             self._area = pi * (self.radius ** 2)
+#         return self._area
+#
+# c = Circle(1)
+#
+# print(c.area)     #Calculating area...   3.141592653589793
+# print(c.area)     # 3.141592653589793
+#
+# c.radius = 2
+#
+# print(c.area)     #Calculating area...   12.566370614359172
+# print(c.area)     # 12.566370614359172
+#
+##############################
+
+
+### 26. Deleting Properties - Coding
+# class Person:
+#     def __init__(self, name):
+#         self._name = name
+#
+#     @property
+#     def name(self):
+#         return self._name
+#
+#     @name.setter
+#     def name(self,value):
+#         self._name = value
+#
+#     @name.deleter
+#     def name(self):
+#         del self._name
+#
+#
+# p = Person('Alex')
+# print(p.__dict__)  #{'_name': 'Alex'}
+# print(p.name)   #Alex
+#
+# del p.name
+# print(p.__dict__)   #{}
+#
+#################
